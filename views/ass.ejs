@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/ass.css">
+    <link rel="stylesheet" href="/css/navbar.css">
+</head>
+
+<body>
+
+
+    <nav>
+        <div class="logo">
+            Lesson Plan Management System
+        </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="menu-btn">
+         <i class="fas fa-bars"></i>
+         </label>
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/subjects">Subject</a></li>
+            <li><a href="#">Assignments</a></li>
+
+        </ul>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav>
+    <div id="wrapper">
+
+        <form id="paper" method="POST" action="/subjects/<%= subject._id %>/assignment">
+
+            <div id="margin">Title: <input id="title" type="text" name="title"></div>
+            <textarea placeholder="Enter your assignment" id="text" name="body" rows="4" style="overflow: hidden; word-wrap: break-word; resize: none; height: 160px; "></textarea>
+            <br>
+            <input id="button" type="submit" value="Create">
+
+        </form>
+
+    </div>
+    <script src="/js/ass.js"></script>
+</body>
+
+</html>

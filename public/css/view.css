@@ -1,0 +1,119 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 20px;
+    background: #464775;
+}
+
+.wrapper {
+    max-width: 1090px;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.wrapper .table {
+    background: #fff;
+    width: 28%;
+    padding: 30px 30px;
+    position: relative;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    margin: 16px 8px
+}
+
+.table .package-name {
+    width: 100%;
+    height: 2px;
+    margin: 35px 0;
+    position: relative;
+}
+
+.table .package-name::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 25px;
+    font-weight: 500;
+    background: #fff;
+    padding: 0 15px;
+    transform: translate(-50%, -50%);
+}
+
+.table .btn {
+    width: 100%;
+    display: flex;
+    margin-top: 35px;
+    justify-content: center;
+}
+
+.table .btn button {
+    width: 80%;
+    height: 50px;
+    color: #fff;
+    font-size: 20px;
+    font-weight: 500;
+    border: none;
+    outline: none;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.table .btn button:hover {
+    border-radius: 5px;
+}
+
+.sub .features li::selection {
+    background: #ffd861;
+}
+
+.sub ::selection,
+.sub .price-area,
+.sub .inner-area {
+    background: #ffd861;
+}
+
+.sub .btn button {
+    border: 2px solid #ffd861;
+    background: #fff;
+    color: #ffd861;
+}
+
+.sub .btn button:hover {
+    background: #ffd861;
+    color: #fff;
+}
+
+.sub .package-name {
+    background: #ffecb3;
+}
+
+@media (max-width: 1020px) {
+    .wrapper .table {
+        width: calc(50% - 20px);
+        margin-bottom: 40px;
+    }
+}
+
+@media (max-width: 698px) {
+    .wrapper .table {
+        width: 100%;
+    }
+}
+
+::selection {
+    color: #fff;
+}
