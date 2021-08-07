@@ -11,11 +11,7 @@ const assignmentSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    file: [{
 
-        url: String,
-        filename: String
-    }]
 })
 const Assignment = mongoose.model('Assignment', assignmentSchema);
 module.exports = Assignment;

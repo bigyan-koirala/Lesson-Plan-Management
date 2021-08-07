@@ -1,58 +1,55 @@
 <!DOCTYPE html>
 
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <title> Navigation Menu</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-    <link rel="stylesheet" href="/css/view.css">
-
-
-    <!-- <script src="https://kit.fontawesome.com/a076d05399.js"></script> -->
 </head>
 
 <body>
-
-
-
-    <div class="wrapper">
-        <div class="table sub">
-
-            <div class="package-name"></div>
-            <div class="btn">
-                <a href="/subjects/<%=subject._id%>/assignment/new"><button>Create Assignment</button></a></div>
+    <nav>
+        <div class="logo">
+            Lesson Plan Management System
         </div>
+        <input type="checkbox" id="click">
+        <label for="click" class="menu-btn">
+         <i class="fas fa-bars"></i>
+         </label>
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/subjects">Subject</a></li>
+            <li><a href="#">Assignments</a></li>
 
-
-        <div class="table sub">
-
-            <div class="package-name"></div>
-            <div class="btn"><button>View lessonplan</button></div>
+        </ul>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
+            </div>
         </div>
-
-
-        <div class="table sub">
-
-            <div class="package-name"></div>
-            <div class="btn"><button>View Assignments</button></div>
         </div>
-
-
-        <div class="table sub">
-
-            <div class="package-name"></div>
-            <div class="btn"><button>Add Resources</button></div>
         </div>
+    </nav>
 
 
-        <div class="table sub">
-
-            <div class="package-name"></div>
-            <div class="btn"><button>Files</button></div>
-        </div>
-
-
-        < </body>
+    <main>
+        <ol class="gradient-list">
+            <li>
+                <a href="/subjects/<%= subject._id %>/plan ">View Plan</a></li>
+            <li>
+                <a href="/subjects/<%= subject._id %>/assignment/new ">Create Assignment</a></li>
+            <li>
+                <a href="/subjects/<%= subject._id %>/assignment ">View Assignment</a></li>
+            <li>
+                <a href="/subjects/<%= subject._id %>/resources/new ">Create Resources</a></li>
+            <li>
+                <a href="/subjects/<%= subject._id %>/resources ">View Resources</a></li>
+        </ol>
+    </main>
+</body>
 
 </html>

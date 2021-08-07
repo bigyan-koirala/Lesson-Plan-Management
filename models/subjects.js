@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs')
 const Assignment = require('./assignments');
+const Resource = require('./resources');
 const Schema = mongoose.Schema;
 
 
@@ -19,9 +20,12 @@ const subjectSchema = new Schema({
     image: {
         type: String
     },
-    resource: {
-        type: String
-    },
+
+    resources: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Resource'
+    }],
+
     subcode: {
         type: String
     }

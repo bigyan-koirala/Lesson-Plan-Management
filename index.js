@@ -1,36 +1,31 @@
+if (process.env.NODE_ENV !== "production") {
+    require('dotenv').config();
+}
+
+
 const express = require('express')
 const app = express();
 const path = require('path')
 const User = require('./models/user.js')
 const bodyParser = require('body-parser')
-    //const methodOverride = require('method-override')
+const methodOverride = require('method-override')
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
 const Subject = require('./models/subjects.js')
 const Assignment = require('./models/assignments');
+const Resource = require('./models/resources');
+
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
-
-var multer = require('multer');
-var upload = multer({ dest: 'uploads/' })
-
-
-// var storage = multer.diskStorage({
-//         destination: function(req, file, cb) {
-//             cb(null, './public/uploads/'); // Make sure this folder exists
-//         },
-//         filename: function(req, file, cb) {
-//             var ext = file.originalname.split('.').pop();
-//             cb(null, file.fieldname + '-' + Date.now() + '.' + ext);
-
-//         }
-//     }),
-//     upload = multer({ storage: storage }).single('image');
+const crypto = require('crypto');
+const multer = require('multer');
+const { storage } = require('./cloudinary/index')
+const upload = multer({ storage });
 
 
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/dummy', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true });
+mongoose.connect('mongodb://localhost:27017/dummy', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error"));
@@ -40,12 +35,12 @@ db.once("open", () => {
 
 app.use(express.static('public'))
     // app.use(express.static(__dirname + '/public'));
-app.set('view engine', 'ejs');
+app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(session({ secret: 'sessionsecret' }))
-    //app.use(methodOverride('_method'))
+app.use(methodOverride('_method'))
 
 const requireLogin = async(req, res, next) => {
     if (!req.session.user_id) {
@@ -89,7 +84,7 @@ app.post('/login', catchAsync(async(req, res) => {
 
 app.post('/logout', catchAsync(async(req, res) => {
     req.session.user_id = null;
-    res.redirect('/login');
+    res.redirect('/');
 }))
 
 app.get('/', catchAsync(async(req, res) => {
@@ -140,6 +135,7 @@ app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
 
 app.get('/subjects/:id/assignment', catchAsync(async(req, res) => {
     const { id } = req.params
+
     const subject = await Subject.findById(id).populate('assignments');
 
     res.render('assignments.ejs', { subject })
@@ -158,15 +154,51 @@ app.post('/subjects/:id/assignment', catchAsync(async(req, res, next) => {
     subject.assignments.push(assignment);
     await assignment.save();
     await subject.save();
+    console.log(req.body)
     res.redirect(`/subjects/${subject._id}/assignment`);
 
 }))
+
+
+app.get('/subjects/:id/resources', catchAsync(async(req, res) => {
+    res.render('uploads.ejs')
+
+}))
+
+app.post('/subjects/:id/resources', upload.array('file'), catchAsync(async(req, res) => {
+    const subject = await Subject.findById(req.params.id);
+
+    const resources1 = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    const files = new Resource(resources1);
+    subject.resources.push(files);
+    await files.save();
+    await subject.save();
+    res.redirect(`/subjects/${subject._id}/resources`);
+    console.log(files);
+
+    console.log(subject);
+
+}))
+
+app.get('/subjects/:id/resources/new', catchAsync(async(req, res) => {
+    const subject = await Subject.findById(req.params.id)
+    res.render('upload.ejs', { subject })
+}))
+
+app.delete('/subjects/:id/assignment/:assignmentId', catchAsync(async(req, res) => {
+    const { id, assignmentId } = req.params;
+    await Subject.findByIdAndUpdate(id, { $pull: { assignments: assignmentId } });
+    await Assignment.findByIdAndDelete(assignmentId);
+    res.redirect(`/subjects/${id}/assignment`);
+}))
+
 
 // app.post('/subjects/:id/assignment', upload.single('image'), (req, res) => {
 //     console.log(req.body)
 //     console.log(req.file)
 //     res.send(req.body)
 // })
+
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page Not Found', 404))

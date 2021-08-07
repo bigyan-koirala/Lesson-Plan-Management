@@ -24,15 +24,15 @@ const subjects = [
     'Data Communication',
     'Instrumentation 2'
 ];
-const images = [
-    'https://static.javatpoint.com/tutorial/software-engineering/images/software-engineering-introduction.png',
-    'https://images.squarespace-cdn.com/content/v1/5d7b6b83ace5390eff86b2ae/1568400608914-FQOE1RUCJSOKWF2GEUXT/ray_tracing.jpg?format=1500w',
-    'https://statanalytica.com/blog/wp-content/uploads/2019/09/probability-vs-statistics.jpg',
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5tHcyB-PMnp2B36VXsSTLFe5pqBU6WfafMg&usqp=CAU',
-    'https://www.intel.com/content/dam/www/public/us/en/images/photography-consumer/rwd/adobestock-rwd.jpg.rendition.intel.web.864.486.jpg',
-    'https://d3mxt5v3yxgcsr.cloudfront.net/courses/1948/course_1948_image.png',
-    'https://www.cpengineering.co.uk/wp/wp-content/uploads/2019/02/instrumentation-control.jpg'
-]
+// const images = [
+//     'https://static.javatpoint.com/tutorial/software-engineering/images/software-engineering-introduction.png',
+//     'https://images.squarespace-cdn.com/content/v1/5d7b6b83ace5390eff86b2ae/1568400608914-FQOE1RUCJSOKWF2GEUXT/ray_tracing.jpg?format=1500w',
+//     'https://statanalytica.com/blog/wp-content/uploads/2019/09/probability-vs-statistics.jpg',
+//     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5tHcyB-PMnp2B36VXsSTLFe5pqBU6WfafMg&usqp=CAU',
+//     'https://www.intel.com/content/dam/www/public/us/en/images/photography-consumer/rwd/adobestock-rwd.jpg.rendition.intel.web.864.486.jpg',
+//     'https://d3mxt5v3yxgcsr.cloudfront.net/courses/1948/course_1948_image.png',
+//     'https://www.cpengineering.co.uk/wp/wp-content/uploads/2019/02/instrumentation-control.jpg'
+// ]
 const subcode = [
     'a',
     'b',
@@ -48,7 +48,6 @@ const seedDB = async() => {
         //const random1000 = Math.floor(Math.random() * 1000);
         const subject = new Subject({
             name: `${subjects[i]}`,
-            image: `${images[i]}`,
             subcode: `${subcode[i]}`
 
         })
