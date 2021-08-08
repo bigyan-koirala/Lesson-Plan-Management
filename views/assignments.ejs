@@ -6,12 +6,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <!-- <link rel="stylesheet" href="../public/assignment.css"> -->
+    <link rel="stylesheet" href="/css/navbar.css">
     <link rel="stylesheet" href="/css/assignment.css">
 </head>
 
 <body>
-    <h1>Hello here are your created assignments</h1>
+    <nav>
+        <div class="logo">
+            Lesson Plan Management System
+        </div>
+        <ul>
+            <li><a class="active" href="/">Home</a></li>
+            <li><a href="/subjects">Subject</a></li>
+            <li><a href="#">Assignments</a></li>
+        </ul>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav>
+    <h1 style="text-align: center;">Here are your created assignments</h1>
     <% for(let assignment of subject.assignments) { %>
         <div class="main-container">
 
