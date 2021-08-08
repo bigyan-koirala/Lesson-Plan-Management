@@ -193,6 +193,12 @@ app.delete('/subjects/:id/assignment/:assignmentId', catchAsync(async(req, res) 
 }))
 
 
+app.get('/subjects/:id/calendar', catchAsync(async(req, res) => {
+    const subject = await Subject.findById(req.params.id)
+    res.render('calendar.ejs', { subject });
+}))
+
+
 // app.post('/subjects/:id/assignment', upload.single('image'), (req, res) => {
 //     console.log(req.body)
 //     console.log(req.file)

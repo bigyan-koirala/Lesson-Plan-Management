@@ -10,18 +10,32 @@
 </head>
 
 <body>
-    <h1>
-        <%= err.message %>
-    </h1>
+    <section class="page_404">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12 ">
+                    <div class="col-sm-10 col-sm-offset-1  text-center">
+                        <div class="four_zero_four_bg">
+                            <h1 class="text-center ">404</h1>
 
-    <div class="frame">
-        <div></div>
-        <div></div>
-        <div></div>
-    </div>
-    <div class="caps"><img src="http://ademilter.com/caps.png" alt=""></div>
-    <canvas id="canvas"></canvas>
-    <script src="/js/error.js"></script>
+
+                        </div>
+
+                        <div class="contant_box_404">
+                            <h3 class="h2">
+                                <%= err.message %>
+                            </h3>
+
+
+
+                            <a href="/" class="link_404">Go to Home</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <script src="/js/error.js"></script> -->
 </body>
 
 </html>
