@@ -6,6 +6,10 @@ ol {
 }
 
 ol a {
+    width: 50%;
+    height: 55px;
+    align-items: center;
+   justify-content: flex-start;
     position: relative;
     display: -webkit-inline-flex;
     padding: .4em .4em .4em 2em;
