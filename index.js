@@ -88,10 +88,7 @@ app.post('/logout', catchAsync(async(req, res) => {
 }))
 
 app.get('/', catchAsync(async(req, res) => {
-    const { id } = req.params
-
-    const subject = await Subject.findById(id);
-    res.render('home.ejs', { subject });
+    res.render('home.ejs');
 }))
 
 
