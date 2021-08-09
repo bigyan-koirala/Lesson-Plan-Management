@@ -88,7 +88,10 @@ app.post('/logout', catchAsync(async(req, res) => {
 }))
 
 app.get('/', catchAsync(async(req, res) => {
-    res.render('home.ejs');
+    const { id } = req.params
+
+    const subject = await Subject.findById(id);
+    res.render('home.ejs', { subject });
 }))
 
 
@@ -193,9 +196,8 @@ app.delete('/subjects/:id/assignment/:assignmentId', catchAsync(async(req, res) 
 }))
 
 
-app.get('/subjects/:id/calendar', catchAsync(async(req, res) => {
-    const subject = await Subject.findById(req.params.id)
-    res.render('calendar.ejs', { subject });
+app.get('/calendar', catchAsync(async(req, res) => {
+    res.render('calendar.ejs');
 }))
 
 
