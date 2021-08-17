@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <title> Navigation Menu</title>
     <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/buttons.css">
+    <link rel="stylesheet" href="/css/hi.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -20,7 +20,6 @@
             <li><a class="active" href="/">Home</a></li>
             <li><a href="/subjects">Subject</a></li>
             <li><a href="#">Assignments</a></li>
-
         </ul>
         <div class="navbar-end">
             <div class="navbar-item">
@@ -31,24 +30,36 @@
         </div>
     </nav>
 
+    <div class="wrapper">
+        <ul>
+            <li>
+                <a href="/subjects/<%=subject._id %>/plan/new "> Create plan</a>
+            </li>
+            <li>
+                <li>
+                    <a href="/subjects/<%= subject._id %>/plan "> View Plan</a></li>
+                <li>
+                    <a href="/subjects/<%= subject._id %>/assignment/new ">Create Assignment</a></li>
+                <li>
+                    <a href="/subjects/<%= subject._id %>/assignment ">View Assignment</a></li>
+                <li>
+                    <a href="/subjects/<%= subject._id %>/resources/new ">Create Resources</a></li>
+                <li>
+                    <a href="/subjects/<%= subject._id %>/resources ">View Resources</a></li>
 
-    <main>
-        <ol class="gradient-list">
-            <li>
-                <a href="/subjects/<%= subject._id %>/plan ">View Plan</a></li>
-            <li>
-                <a href="/subjects/<%= subject._id %>/assignment/new ">Create Assignment</a></li>
-            <li>
-                <a href="/subjects/<%= subject._id %>/assignment ">View Assignment</a></li>
-            <li>
-                <a href="/subjects/<%= subject._id %>/resources/new ">Create Resources</a></li>
-            <li>
-                <a href="/subjects/<%= subject._id %>/resources ">View Resources</a></li>
+                <li>
+                    <a href="/calendar">Calendar</a></li>
 
-            <li>
-                <a href="/calendar">Calendar</a></li>
-        </ol>
-    </main>
+
+                <li>
+                    <form id="my_form" class="d-inline" action="/subjects/<%=subject._id%>?_method=DELETE" method="POST">
+                        <a href="javascript:{}" onclick="document.getElementById('my_form').submit();">Delete</a>
+                    </form>
+                </li>
+
+        </ul>
+    </div>
+
 </body>
 
 </html>

@@ -3,6 +3,7 @@ const bcrypt = require('bcryptjs')
 const Assignment = require('./assignments');
 const Resource = require('./resources');
 const Schema = mongoose.Schema;
+const Plan = require('./lessonplan')
 
 
 const subjectSchema = new Schema({
@@ -25,6 +26,12 @@ const subjectSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Resource'
     }],
+
+    plan: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Plan'
+    }],
+
 
     subcode: {
         type: String

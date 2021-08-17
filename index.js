@@ -15,6 +15,7 @@ const session = require('express-session');
 const Subject = require('./models/subjects.js')
 const Assignment = require('./models/assignments');
 const Resource = require('./models/resources');
+const Plan = require('./models/lessonplan.js');
 
 const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
@@ -94,8 +95,25 @@ app.get('/', catchAsync(async(req, res) => {
 
 app.get('/subjects', requireLogin, catchAsync(async(req, res) => {
     const subjects = await Subject.find({});
+    console.log(subjects)
     res.render('subjects', { subjects })
 }))
+
+app.get('/subjects/new', catchAsync(async(req, res) => {
+    res.render('new.ejs')
+
+}))
+
+
+app.post('/subjects', async(req, res) => {
+    //console.log(req.body)
+    const subject = new Subject(req.body);
+    await subject.save();
+    res.redirect(`/subjects`)
+
+})
+
+
 
 app.get('/subjects/:id', catchAsync(async(req, res) => {
     const { id } = req.params
@@ -104,39 +122,81 @@ app.get('/subjects/:id', catchAsync(async(req, res) => {
     res.render('view1.ejs', { subject })
 }))
 
+app.delete('/subjects/:id', async(req, res) => {
+
+    const { id } = req.params;
+    console.log(id);
+    await Subject.findByIdAndDelete(id);
+    res.redirect('/subjects');
+})
+
+// app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
+//     const { id } = req.params;
+//     const subject = await Subject.findById(id);
+//     if (subject.subcode === 'a') {
+//         res.render('plans/softwareengineering.ejs');
+//     }
+//     if (subject.subcode === 'b') {
+//         res.render('plans/graphics.ejs');
+//     }
+//     if (subject.subcode === 'c') {
+//         res.render('plans/stats.ejs');
+//     }
+//     if (subject.subcode === 'd') {
+//         res.render('plans/english.ejs');
+//     }
+//     if (subject.subcode === 'e') {
+//         res.render('plans/coa.ejs');
+//     }
+//     if (subject.subcode === 'f') {
+//         res.render('plans/dc.ejs');
+//     }
+//     if (subject.subcode === 'g') {
+//         res.render('plans/instrumentation.js');
+//     }
+
+//     console.log(subject.subcode)
+
+
+// }))
+
 app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
     const { id } = req.params;
-    const subject = await Subject.findById(id);
-    if (subject.subcode === 'a') {
-        res.render('plans/softwareengineering.ejs');
-    }
-    if (subject.subcode === 'b') {
-        res.render('plans/graphics.ejs');
-    }
-    if (subject.subcode === 'c') {
-        res.render('plans/stats.ejs');
-    }
-    if (subject.subcode === 'd') {
-        res.render('plans/english.ejs');
-    }
-    if (subject.subcode === 'e') {
-        res.render('plans/coa.ejs');
-    }
-    if (subject.subcode === 'f') {
-        res.render('plans/dc.ejs');
-    }
-    if (subject.subcode === 'g') {
-        res.render('plans/instrumentation.js');
-    }
-    // res.render('plans/stats.ejs')
+    const subject = await Subject.findById(id).populate('plan');
+    console.log(subject.plan.week)
+    res.render('plan.ejs', { subject })
 
 
 }))
+
+app.get('/subjects/:id/plan/new', catchAsync(async(req, res) => {
+    const { id } = req.params;
+    const subject = await Subject.findById(id);
+    console.log(subject.name)
+    res.render('createplan.ejs', { subject })
+
+
+}))
+
+app.post('/subjects/:id/plan', catchAsync(async(req, res, next) => {
+
+    const subject = await Subject.findById(req.params.id);
+    const plan = new Plan(req.body);
+    subject.plan.push(plan);
+    await plan.save();
+    await subject.save();
+    console.log(req.body)
+    res.redirect(`/`);
+    console.log('hurrayyyy')
+
+}))
+
 
 app.get('/subjects/:id/assignment', catchAsync(async(req, res) => {
     const { id } = req.params
 
     const subject = await Subject.findById(id).populate('assignments');
+    console.log(subject.assignments.title)
 
     res.render('assignments.ejs', { subject })
 }))
@@ -194,7 +254,7 @@ app.delete('/subjects/:id/assignment/:assignmentId', catchAsync(async(req, res) 
 
 
 app.get('/calendar', catchAsync(async(req, res) => {
-    res.render('calendar.ejs');
+    res.render('calendar1.ejs');
 }))
 
 

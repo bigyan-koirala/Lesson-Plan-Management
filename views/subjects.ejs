@@ -8,12 +8,14 @@
     <title>Document</title>
     <link rel="stylesheet" href="/css/subjects.css">
     <link rel="stylesheet" href="/css/home.css">
+    <link rel="stylesheet" href="/css/popup.css">
 
 
 
 </head>
 
 <body>
+
 
 
     <nav>
@@ -37,6 +39,33 @@
 
 
 
+    <!-- Hero Image -->
+
+    <section class="hero">
+        <div class="hero-content">
+            <a href="/subjects/new" id="button" class="button">Add new Subject</a>
+        </div>
+    </section>
+
+
+    <!-- Modal Section -->
+
+    <div class="bg-modal">
+        <div class="modal-contents">
+
+            <div class="close">+</div>
+            <img src="https://richardmiddleton.me/comic-100.png" alt="">
+
+            <form action="/subjects" method="POST">
+                <input type="text" placeholder="Name" name="name">
+
+                <input type="submit" value="Submit">
+            </form>
+
+        </div>
+    </div>
+
+
     <% for (let subject of subjects){%>
         <div class="container">
             <div class="card">
@@ -47,16 +76,15 @@
                         </h3>
                         <!-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore, totam velit? Iure nemo labore inventore?</p> -->
                         <a href="/subjects/<%= subject._id %> ">Click for details</a>
+
                     </div>
                 </div>
             </div>
 
-
-
-
         </div>
         </div>
         <% }%>
+            <!-- <script src="/js/popup.js"></script> -->
 </body>
 
 </html>

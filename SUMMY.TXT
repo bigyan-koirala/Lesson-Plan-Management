@@ -1,0 +1,29 @@
+ <!-- <main>
+        <ol class="gradient-list ">
+
+            <li>
+                <a href="/subjects/<%=subject._id %>/newplan "> Create plan</a>
+    </li>
+    <li>
+        <li>
+            <a href="/subjects/<%= subject._id %>/plan "> View Plan</a></li>
+        <li>
+            <a href="/subjects/<%= subject._id %>/assignment/new ">Create Assignment</a></li>
+        <li>
+            <a href="/subjects/<%= subject._id %>/assignment ">View Assignment</a></li>
+        <li>
+            <a href="/subjects/<%= subject._id %>/resources/new ">Create Resources</a></li>
+        <li>
+            <a href="/subjects/<%= subject._id %>/resources ">View Resources</a></li>
+
+        <li>
+            <a href="/calendar">Calendar</a></li>
+
+
+        <li>
+            <form id="my_form" class="d-inline" action="/subjects/<%=subject._id%>?_method=DELETE" method="POST">
+                <a href="javascript:{}" onclick="document.getElementById('my_form').submit();">Delete</a>
+            </form>
+        </li>
+        </ol>
+        </main> -->
