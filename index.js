@@ -76,7 +76,7 @@ app.post('/login', catchAsync(async(req, res) => {
     const foundUser = await User.findAndValidate(username, password);
     if (foundUser) {
         req.session.user_id = foundUser._id;
-        res.redirect('/');
+        res.redirect('/dashboard');
     } else {
         res.redirect('/login')
     }
@@ -91,6 +91,11 @@ app.post('/logout', catchAsync(async(req, res) => {
 app.get('/', catchAsync(async(req, res) => {
     res.render('home.ejs');
 }))
+
+app.get('/dashboard', catchAsync(async(req, res) => {
+    res.render('home1.ejs');
+}))
+
 
 
 app.get('/subjects', requireLogin, catchAsync(async(req, res) => {
