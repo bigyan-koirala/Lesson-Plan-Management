@@ -162,35 +162,7 @@ app.delete('/subjects/:id', async(req, res) => {
     res.redirect('/subjects');
 })
 
-// app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
-//     const { id } = req.params;
-//     const subject = await Subject.findById(id);
-//     if (subject.subcode === 'a') {
-//         res.render('plans/softwareengineering.ejs');
-//     }
-//     if (subject.subcode === 'b') {
-//         res.render('plans/graphics.ejs');
-//     }
-//     if (subject.subcode === 'c') {
-//         res.render('plans/stats.ejs');
-//     }
-//     if (subject.subcode === 'd') {
-//         res.render('plans/english.ejs');
-//     }
-//     if (subject.subcode === 'e') {
-//         res.render('plans/coa.ejs');
-//     }
-//     if (subject.subcode === 'f') {
-//         res.render('plans/dc.ejs');
-//     }
-//     if (subject.subcode === 'g') {
-//         res.render('plans/instrumentation.js');
-//     }
 
-//     console.log(subject.subcode)
-
-
-// }))
 
 app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
     const { id } = req.params;
@@ -340,6 +312,7 @@ app.use((err, req, res, next) => {
     res.status(statusCode).render('error', { err })
 })
 
-app.listen(3000, () => {
-    console.log("Server Started");
+const port = process.env.PORT || 3000;
+app.listen(port, () => {
+    console.log(`Serving on port ${port}`)
 })
