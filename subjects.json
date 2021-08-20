@@ -1,0 +1,8 @@
+{"_id":{"$oid":"611bf48aa8fa08e9d55f6802"},"assignments":[{"$oid":"611ecd3a77dbf0324ede02c4"}],"resources":[],"name":"Software Engineering","subcode":"a","__v":4,"plan":[{"$oid":"611e9a212d605de11e9b32c6"},{"$oid":"611e9a392d605de11e9b32d0"}]}
+{"_id":{"$oid":"611bf48aa8fa08e9d55f6806"},"assignments":[],"resources":[],"name":"Probability and Statistics","subcode":"c","__v":1,"plan":[{"$oid":"611c10b824414fba83b6c52b"}]}
+{"_id":{"$oid":"611bf48aa8fa08e9d55f6808"},"assignments":[],"resources":[],"name":"Communication English","subcode":"d","__v":0}
+{"_id":{"$oid":"611bf48aa8fa08e9d55f680a"},"assignments":[],"resources":[],"name":"Computer Organization and Architecture","subcode":"e","__v":0}
+{"_id":{"$oid":"611bf48aa8fa08e9d55f680c"},"assignments":[],"resources":[],"name":"Data Communication","subcode":"f","__v":0}
+{"_id":{"$oid":"611bf48aa8fa08e9d55f680e"},"assignments":[{"$oid":"611e8ffe559725c568276453"}],"resources":[],"name":"Instrumentation 2","subcode":"g","__v":2,"plan":[{"$oid":"611e8fd4559725c568276447"}]}
+{"_id":{"$oid":"611c1489a503b8be54366167"},"assignments":[],"resources":[],"plan":[{"$oid":"611c1492a503b8be5436616d"},{"$oid":"611e872d559725c5682763d3"},{"$oid":"611e8744559725c5682763de"},{"$oid":"611e8774559725c5682763e8"}],"name":"Computer Graphics","__v":4}
+{"_id":{"$oid":"611e8923559725c5682763fa"},"assignments":[],"resources":[],"plan":[{"$oid":"611e8939559725c568276400"},{"$oid":"611e8f08559725c568276437"}],"name":"Applied mechanics","__v":3}
