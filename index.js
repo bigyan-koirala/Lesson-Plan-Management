@@ -169,7 +169,7 @@ app.get('/subjects/:id/plan', catchAsync(async(req, res) => {
     const { id } = req.params;
     const subject = await Subject.findById(id).populate('plan');
     console.log(subject.plan.week)
-    res.render('plan.ejs', { subject })
+    res.render('table.ejs', { subject })
 
 
 }))
@@ -178,7 +178,7 @@ app.get('/subjects/:id/plan/new', catchAsync(async(req, res) => {
     const { id } = req.params;
     const subject = await Subject.findById(id);
     console.log(subject.name)
-    res.render('createplan.ejs', { subject })
+    res.render('create.ejs', { subject })
 
 
 }))
@@ -197,6 +197,30 @@ app.post('/subjects/:id/plan', catchAsync(async(req, res, next) => {
 }))
 
 
+app.get('/subjects/:id/plan/:planId/edit', catchAsync(async(req, res, next) => {
+    const { id, planId } = req.params;
+    const subject = await Subject.findById(id);
+    const plan = await Plan.findById(planId);
+    console.log(plan)
+    res.render(`editplan.ejs`, { subject, plan });
+
+
+}))
+
+
+
+app.put('/subjects/:id/plan/:planId', catchAsync(async(req, res) => {
+    console.log('gg')
+    const { id, planId } = req.params;
+
+    // await Subject.findByIdAndUpdate(id, {...req.body });
+    await Plan.findByIdAndUpdate(planId, {...req.body });
+    res.redirect(`/subjects/${id}/plan`);
+}))
+
+// app.put('/subjects/:id/plan',catchAsync(async)
+
+
 app.get('/subjects/:id/assignment', catchAsync(async(req, res) => {
     const { id } = req.params
 
@@ -205,6 +229,15 @@ app.get('/subjects/:id/assignment', catchAsync(async(req, res) => {
 
     res.render('assignments.ejs', { subject })
 }))
+
+app.get('/showass', catchAsync(async(req, res) => {
+    const { id } = req.params
+    const ass = await Assignment.find();
+    console.log(ass)
+
+    res.render('showpage.ejs', { ass })
+}))
+
 
 app.get('/subjects/:id/assignment/new', catchAsync(async(req, res) => {
     const { id } = req.params;

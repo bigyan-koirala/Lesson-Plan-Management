@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/assignment.css">
+</head>
+
+<body>
+    <nav>
+        <div class="logo">
+            Lesson Plan Management System
+        </div>
+        <ul>
+            <li><a class="active" href="/dashboard">Home</a></li>
+            <li><a href="/subjects">Subject</a></li>
+            <li><a href="/showass">Assignments</a></li>
+        </ul>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav>
+    <h1 style="text-align: center;">Here are your created assignments</h1>
+    <% for(let assignment of ass) { %>
+        <div class="main-container">
+
+            <div class="cards">
+                <div class="card card-1">
+                    <div class="card__icon"><i class="fas fa-bolt"></i></div>
+                    <p class="card__exit"><i class="fas fa-times"></i></p>
+                    <p class="card__apply">
+
+                        <%= assignment.title %> <i class="fas fa-arrow-right"></i></a>
+                    </p>
+                    <h2 class="card__title">
+                        <%= assignment.body %>
+                    </h2>
+
+                </div>
+
+            </div>
+        </div>
+
+        <% } %>
+
+</body>
+
+</html>

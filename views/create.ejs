@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/css/create1.css">
+    <!-- <link rel="stylesheet" href="/css/navbar.css"> -->
+</head>
+
+<body>
+
+    <!-- <nav>
+        <div class="logo">
+            Lesson Plan Management System
+        </div>
+        <ul>
+            <li><a class="active" href="/dashboard">Home</a></li>
+            <li><a href="/subjects">Subject</a></li>
+            <li><a href="#">Assignments</a></li>
+
+        </ul>
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
+            </div>
+        </div>
+        </div>
+        </div>
+    </nav> -->
+    <form action="/subjects/<%= subject._id %>/plan" method="POST">
+        <h2>Create Your Plan</h2>
+        <div class="container">
+
+
+
+            <header>
+                <%= subject.name %>
+            </header>
+            <nav class="lp">Lesson Plan
+
+            </nav>
+            <aside>
+
+                <ul>
+                    <div class="subject">
+
+                        <label>Sunday<input type = "text" name = "sunday" placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                    <div class="subject">
+
+                        <label>Monday<input name = "monday" type = "text" placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                    <div class="subject">
+
+                        <label>Tuesday<input type = "text" name = "tuesday" placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                    <div class="subject">
+
+                        <label>Wednesday<input type = "text" name = "wednesday" placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                    <div class="subject">
+
+                        <label>Thursday<input type = "text" name = "thursday"placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                    <div class="subject">
+
+                        <label>Friday<input type = "text" name = "friday" placeholder="Enter your description here"></input></label>
+
+
+                    </div>
+                </ul>
+
+            </aside>
+            <section>Objectives
+                <div class="objectives">
+                    <textarea rows="8" cols="20" name="objectives"></textarea>
+                </div>
+            </section>
+            <article>Week
+                <div class="notes">
+                    <input type="text" name="week">
+                </div>
+
+            </article>
+
+            <footer>
+                <input type="submit" value="Submit">
+            </footer>
+
+    </form>
+    </div>
+
+</body>
+
+</html>
