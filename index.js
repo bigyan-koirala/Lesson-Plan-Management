@@ -12,6 +12,8 @@ const methodOverride = require('method-override')
 const bcrypt = require('bcryptjs');
 const session = require('express-session');
 
+const MongoStore = require("connect-mongo");
+
 const Subject = require('./models/subjects.js')
 const Assignment = require('./models/assignments');
 const Resource = require('./models/resources');
@@ -24,9 +26,10 @@ const multer = require('multer');
 const { storage } = require('./cloudinary/index')
 const upload = multer({ storage });
 
-
+const dburl = process.env.DB_url || 'mongodb://localhost:27017/dummy';
 const mongoose = require('mongoose')
-mongoose.connect('mongodb://localhost:27017/dummy', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
+    // 'mongodb://localhost:27017/dummy'
+mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "Connection error"));
@@ -34,14 +37,38 @@ db.once("open", () => {
     console.log("Database connected");
 });
 
+const secret = process.env.SECRET || 'thisshouldbeabettersecret!';
+
+
+const store = new MongoStore({
+    mongoUrl: dburl,
+    secret,
+    touchAfter: 24 * 60 * 60
+});
+
+store.on("error", function(e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
+
 app.use(express.static('public'))
-    // app.use(express.static(__dirname + '/public'));
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(session({ secret: 'sessionsecret' }))
+    // app.use(session({ 
+    //     store,
+    //     secret: 'sessionsecret' }))
+
+
+app.use(
+    session({
+        store: store,
+        secret
+    })
+);
 app.use(methodOverride('_method'))
+
 
 const requireLogin = async(req, res, next) => {
     if (!req.session.user_id) {
@@ -98,7 +125,7 @@ app.get('/dashboard', catchAsync(async(req, res) => {
 
 
 
-app.get('/subjects', requireLogin, catchAsync(async(req, res) => {
+app.get('/subjects', catchAsync(async(req, res) => {
     const subjects = await Subject.find({});
     console.log(subjects)
     res.render('subjects', { subjects })
