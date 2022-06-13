@@ -77,7 +77,9 @@ const requireLogin = async(req, res, next) => {
     next();
 }
 
-
+app.get('/test', (req, res) => {
+    res.render('test.ejs');
+})
 
 app.get('/register', (req, res) => {
     res.render('register.ejs');
