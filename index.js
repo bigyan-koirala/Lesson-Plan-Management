@@ -11,6 +11,8 @@ const session = require('express-session');
 const bodyParser = require('body-parser')
 const dburl = process.env.DB_url || 'mongodb://localhost:27017/dummy';
 const mongoose = require('mongoose')
+
+const route = require('./routes/route')
     // 'mongodb://localhost:27017/dummy'
 mongoose.connect(dburl, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: false });
 
@@ -49,7 +51,6 @@ app.use(
 app.use(methodOverride('_method'))
 
 
-const route = require('./routes/route')
 app.use(route)
 const requireLogin = async(req, res, next) => {
     if (!req.session.user_id) {
