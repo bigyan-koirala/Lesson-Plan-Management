@@ -59,11 +59,10 @@ const requireLogin = async(req, res, next) => {
     next();
 }
 
-
 app.use((err, req, res, next) => {
     const { statusCode = 500 } = err;
     if (!err.message) err.message = 'Oh No, Something Went Wrong!'
-    res.status(statusCode).render('error', { err })
+    res.status(statusCode).render('error.ejs', { err })
 })
 
 const port = process.env.PORT || 3000;
