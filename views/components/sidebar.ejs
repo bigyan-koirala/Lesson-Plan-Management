@@ -1,0 +1,36 @@
+<%- include('header') %>
+<div class="flex flex-col justify-between items-center shadow-md h-screen bg-indigo-400 w-[16rem]">
+    <div class="w-full text-center">
+        <p
+            class=" text-white text-6xl font-bold mt-8 mb-10"
+        >
+            LPMS
+        </p>
+        <ul id="ulnav" class="font-bold text-gray-700 w-full text-xl leading-8">
+            <li class="navEl"><a href="/calendar">Calender</a></li>
+            <li class="navEl"><a href="/subjects/new">Subjects</a></li>
+            <li class="navEl"><a href="#">Routine</a></li>
+            <li class="navEl"><a href="#">Resources</a></li>
+        </ul>
+    </div>
+    <div class="bg-white text-center  w-full ">
+        <form class="font-bold text-indigo-400  py-4 " action="/logout" method="post"><input class = "hover:cursor-pointer" type="submit" value="Logout"></form>
+    </div>
+</div>
+<script>
+    let url = window.location.href;
+    console.log(url)
+    const ulnav = document.getElementById("ulnav")
+    const navEls = ulnav.getElementsByClassName("navEl")
+    for (var i = 0; i < navEls.length; i++) {
+        if (navEls[i].firstChild.href === url){
+            navEls[i].className += " bg-white"
+        }
+        navEls[i].addEventListener("click", function() {
+            console.log('clicked')
+            var current = document.getElementsByClassName("bg-white");
+            current[0].className = current[0].className.replace(" bg-white", "");
+            this.className += " bg-white";
+    });
+    }
+</script>

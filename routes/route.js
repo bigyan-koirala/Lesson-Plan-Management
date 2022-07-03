@@ -100,7 +100,7 @@ router.get(
 router.get(
     "/subjects/new",
     catchAsync(async (req, res) => {
-        res.render("new_subject.ejs");
+        res.render("dashboard_new_sub.ejs");
     })
 );
 
@@ -283,7 +283,7 @@ router.delete(
 router.get(
     "/calendar",
     catchAsync(async (req, res) => {
-        res.render("calendar.ejs");
+        res.render("dashboard_calendar.ejs");
     })
 );
 
