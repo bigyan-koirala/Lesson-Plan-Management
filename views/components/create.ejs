@@ -12,24 +12,6 @@
 
 <body>
 
-    <!-- <nav>
-        <div class="logo">
-            Lesson Plan Management System
-        </div>
-        <ul>
-            <li><a class="active" href="/dashboard">Home</a></li>
-            <li><a href="/subjects">Subject</a></li>
-            <li><a href="#">Assignments</a></li>
-
-        </ul>
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
-            </div>
-        </div>
-        </div>
-        </div>
-    </nav> -->
     <form action="/subjects/<%= subject._id %>/plan" method="POST">
         <h2>Create Your Plan</h2>
         <div class="container">

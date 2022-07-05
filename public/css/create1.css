@@ -1,25 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
-}
-
-body {
-    display: flex;
-    padding: 0px 10px;
-    height: 100vh;
-    background: #fff;
-    align-items: center;
-    justify-content: center;
-}
-
-:root {
-    --main-radius: 5px;
-    --main-padding: 5px;
-}
-
 .container {
     display: grid;
     padding: 0 10px;
@@ -51,12 +29,6 @@ header {
     /* border-bottom: 3px solid #778899; */
 }
 
-nav {
-    background: #464775;
-    grid-area: nav;
-    border-radius: 0 0 5px 5px;
-    color: #fff;
-}
 
 aside {
     background: #7778e9;
@@ -92,13 +64,13 @@ form input {
     width: 100%;
     height: 100%;
     outline: none;
-    padding: 0 45px 10px 0;
+    /* padding: 0 45px 10px 0; */
     font-size: 18px;
     background: none;
     caret-color: #5372F0;
-    border-radius: 5px;
-    border: 1px solid #bfbfbf;
-    border-bottom-width: 2px;
+    /* border-radius: 5px; */
+    /* border: 1px solid #bfbfbf;
+    border-bottom-width: 2px; */
     background: white;
 }
 

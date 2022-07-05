@@ -134,7 +134,7 @@ router.get(
         const { id } = req.params;
 
         const subject = await Subject.findById(id);
-        res.render("subject.ejs", { subject });
+        res.render("dashboard_subject.ejs", { subject });
     })
 );
 
@@ -151,7 +151,7 @@ router.get(
         const { id } = req.params;
         const subject = await Subject.findById(id).populate("plan");
         console.log(subject.plan.week);
-        res.render("table.ejs", { subject });
+        res.render("dashboard_table.ejs", { subject });
     })
 );
 
@@ -161,7 +161,7 @@ router.get(
         const { id } = req.params;
         const subject = await Subject.findById(id);
         console.log(subject.name);
-        res.render("create.ejs", { subject });
+        res.render("dashboard_create.ejs", { subject });
     })
 );
 
@@ -186,7 +186,7 @@ router.get(
         const subject = await Subject.findById(id);
         const plan = await Plan.findById(planId);
         console.log(plan);
-        res.render(`edit_plan.ejs`, { subject, plan });
+        res.render(`dashboard_edit_plan.ejs`, { subject, plan });
     })
 );
 
@@ -212,7 +212,7 @@ router.get(
         const subject = await Subject.findById(id).populate("assignments");
         console.log(subject.assignments.title);
 
-        res.render("assignments.ejs", { subject });
+        res.render("dashboard_assignments.ejs", { subject });
     })
 );
 
@@ -223,7 +223,7 @@ router.get(
         const ass = await Assignment.find();
         console.log(ass);
 
-        res.render("showpage.ejs", { ass });
+        res.render("dashboard_assignments.ejs", { ass });
     })
 );
 
@@ -232,7 +232,7 @@ router.get(
     catchAsync(async (req, res) => {
         const { id } = req.params;
         const subject = await Subject.findById(id);
-        res.render("new_assignment.ejs", { subject });
+        res.render("dashboard_new_assignment.ejs", { subject });
     })
 );
 
@@ -252,7 +252,7 @@ router.post(
 router.get(
     "/subjects/:id/resources",
     catchAsync(async (req, res) => {
-        res.render("resources.ejs");
+        res.render("dashboard_resources.ejs");
     })
 );
 
@@ -281,7 +281,7 @@ router.get(
     "/subjects/:id/resources/new",
     catchAsync(async (req, res) => {
         const subject = await Subject.findById(req.params.id);
-        res.render("upload_resource.ejs", { subject });
+        res.render("dashboard_upload_resource.ejs", { subject });
     })
 );
 
