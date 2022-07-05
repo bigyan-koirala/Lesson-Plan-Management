@@ -1,12 +1,15 @@
+const dburl = 'mongodb://127.0.0.1:27017/lpms';
 const express = require("express");
+
 const router = express.Router();
-const bcrypt = require("bcryptjs");
-const crypto = require("crypto");
 const multer = require("multer");
 
+const session = require('express-session');
+const MongoStore = require("connect-mongo");
 const catchAsync = require("../utils/catchAsync");
 const ExpressError = require("../utils/ExpressError");
 const { storage } = require("../cloudinary/index");
+const bodyParser = require('body-parser')
 
 const User = require("../models/user.js");
 const Subject = require("../models/subjects.js");
@@ -15,11 +18,41 @@ const Resource = require("../models/resources");
 const Plan = require("../models/lessonplan.js");
 
 const upload = multer({ storage });
+const requireLogin = async(req, res, next) => {
+    if (!req.session.user_id) {
+        res.redirect('/');
+    }
+    next();
+}
+const secret = 'thisshouldbeabettersecret!';
 
-router.get("/test", (req, res) => {
-    res.render("test.ejs");
+
+const store = new MongoStore({
+    mongoUrl: dburl,
+    ttl: 60 * 60,
+    autoRemove: 'native',
+    user_id:null,
 });
 
+store.on("error", function(e) {
+    console.log("SESSION STORE ERROR", e)
+})
+let ses = 
+    session({
+        saveUninitialized: false,
+        secret:secret,
+        resave: false,
+        store: store,
+    })
+router.use(ses)
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: true }))
+router.get(
+    "/",
+    catchAsync(async (req, res) => {
+        res.render("home.ejs", { errorMessage: "" });
+    })
+);
 router.get("/register", (req, res) => {
     res.render("register.ejs", { errorMessage: "", username: "" });
 });
@@ -29,12 +62,11 @@ router.post(
     catchAsync(async (req, res) => {
         const { username, password, cpassword } = req.body;
 
-        console.log(username)
         if (password === cpassword) {
             const user = new User({ username, password });
             await user.save();
             req.session.user_id = user._id;
-            res.redirect("/");
+            res.redirect("/dashboard");
         } else {
             res.render("register", {
                 errorMessage: "Password didn't matched",
@@ -44,17 +76,10 @@ router.post(
     })
 );
 
-router.get(
-    "/login",
-    catchAsync(async (req, res) => {
-        res.render("login.ejs");
-    })
-);
 
 router.post(
     "/login",
     catchAsync(async (req, res) => {
-        console.log(req.body);
         const { username, password } = req.body;
         const foundUser = await User.findAndValidate(username, password);
         if (foundUser) {
@@ -74,13 +99,7 @@ router.post(
     })
 );
 
-router.get(
-    "/",
-    catchAsync(async (req, res) => {
-        res.render("home.ejs", { errorMessage: "" });
-    })
-);
-
+router.use(requireLogin)
 router.get(
     "/dashboard",
     catchAsync(async (req, res) => {
@@ -92,8 +111,7 @@ router.get(
     "/subjects",
     catchAsync(async (req, res) => {
         const subjects = await Subject.find({});
-        console.log(subjects);
-        res.render("subjects.ejs", { subjects });
+        res.render("dashboard_subjects.ejs", { subjects });
     })
 );
 
@@ -105,7 +123,6 @@ router.get(
 );
 
 router.post("/subjects", async (req, res) => {
-    //console.log(req.body)
     const subject = new Subject(req.body);
     await subject.save();
     res.redirect(`/subjects`);

@@ -6,51 +6,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Subjects</title>
-    <link rel="stylesheet" href="/css/subjects.css">
-    <link rel="stylesheet" href="/css/home.css">
+    <!-- <link rel="stylesheet" href="/css/subjects.css"> -->
     <link rel="stylesheet" href="/css/popup.css">
-
-
-
 </head>
 
 <body>
-
-
-
-    <nav>
-        <div class="logo">
-            Lesson Plan Management System
-        </div>
-        <ul>
-            <li><a class="active" href="/dashboard">Home</a></li>
-            <li><a href="/subjects">Subject</a></li>
-            <li><a href="#">Assignments</a></li>
-            <li><a href="/calendar">Calendar</a></li>
-
-        </ul>
-        <div class="navbar-end">
-            <div class="navbar-item">
-                <form action="/logout" method="post"><button type="submit" class="button is-primary">Log out</button></form>
-            </div>
-        </div>
-        </div>
-        </div>
-    </nav>
-
-
-
     <!-- Hero Image -->
-
-    <section class="hero">
         <div class="hero-content">
             <a href="/subjects/new" id="button" class="button">Add new Subject</a>
         </div>
-    </section>
 
 
-
-    </div>
 
 
     <% for (let subject of subjects){%>

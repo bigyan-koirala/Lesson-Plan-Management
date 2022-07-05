@@ -1,39 +1,8 @@
-h1,
-h3 {
-    color: white;
-    font-weight: 400;
-}
-
-header {
-    display: flex;
-    padding: 0 15px;
-    max-width: 800px;
-    margin: 0 auto;
-    justify-content: space-between;
-    align-items: center;
-}
-
 header img {
     width: 30px;
 }
 
-ul {
-    list-style: none;
-}
 
-li {
-    display: inline;
-    padding: 6px;
-}
-
-li a {
-    text-decoration: none;
-    color: black;
-}
-
-li a:hover {
-    text-decoration: underline;
-}
 
 .hero {
     background-image: url("http://richardmiddleton.me/modal-hero.jpg");
@@ -98,14 +67,6 @@ li a:hover {
     padding: 20px;
     position: absolute;
     border-radius: 4px;
-}
-
-input {
-    margin: 15px auto;
-    display: block;
-    width: 50%;
-    padding: 8px;
-    border: 1px solid gray;
 }
 
 .close {
