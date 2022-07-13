@@ -19,6 +19,8 @@ const Plan = require("../models/lessonplan.js");
 
 const upload = multer({ storage });
 const requireLogin = async(req, res, next) => {
+    console.log(req.session.id)
+    console.log(req.session)
     if (!req.session.user_id) {
         res.redirect('/');
     }
@@ -29,9 +31,8 @@ const secret = 'thisshouldbeabettersecret!';
 
 const store = new MongoStore({
     mongoUrl: dburl,
-    ttl: 60 * 60,
+    ttl: 24*60*60,
     autoRemove: 'native',
-    user_id:null,
 });
 
 store.on("error", function(e) {
@@ -41,8 +42,11 @@ let ses =
     session({
         saveUninitialized: false,
         secret:secret,
+        name:'lpms',
         resave: false,
+        sameSite: true,
         store: store,
+        maxAge:24*60*60,
     })
 router.use(ses)
 router.use(bodyParser.json())
@@ -66,6 +70,7 @@ router.post(
             const user = new User({ username, password });
             await user.save();
             req.session.user_id = user._id;
+            res.session.save();
             res.redirect("/dashboard");
         } else {
             res.render("register", {
@@ -90,15 +95,15 @@ router.post(
         }
     })
 );
-
 router.post(
     "/logout",
     catchAsync(async (req, res) => {
-        req.session.user_id = null;
+        console.log(req.session.user_id)
+        req.session.destroy();
+        res.clearCookie('lpms');
         res.redirect("/");
     })
 );
-
 router.use(requireLogin)
 router.get(
     "/dashboard",
