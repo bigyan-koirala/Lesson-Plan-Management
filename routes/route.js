@@ -70,7 +70,7 @@ router.post(
             const user = new User({ username, password });
             await user.save();
             req.session.user_id = user._id;
-            res.session.save();
+            req.session.save();
             res.redirect("/dashboard");
         } else {
             res.render("register", {
