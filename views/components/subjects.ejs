@@ -1,0 +1,15 @@
+<% for (let subject of subjects){%>
+    <div class="container">
+        <div class="card">
+            <div class="box">
+                <div class="content p-5 border">
+                    <h3 class="py-4">
+                        <%= subject.name %>
+                    </h3>
+                    <a href="/subjects/<%= subject._id %> ">Click for details</a><br/>
+                    <a class="text-red-500" href="/subjects/<%= subject._id %>/delete ">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<% }%>

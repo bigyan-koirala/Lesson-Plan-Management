@@ -1,0 +1,42 @@
+<%- include('header') %>
+<div class="flex flex-col justify-between items-center shadow-md h-screen bg-indigo-400 w-14rem md:w-[16rem] ">
+    <div class="w-full text-left">
+        <p
+            class=" text-white md:text-6xl md:font-bold mt-8 mb-10 pl-12"
+        >
+            LPMS
+        </p>
+        <ul id="ulnav" class="md:font-bold  text-gray-700 w-full md:text-xl space-y-3">
+            <li class="navEl pl-12">
+                <a class="navlink" href="/calendar">
+                    <i class="fa-solid fa-lg fa-book"></i>
+                    <span class="hidden md:inline-flex">Calendar</span>
+                </a>
+            </li>
+            <li class="navEl pl-12"><a class="navlink" href="/subjects/new">New Subject</a></li>
+            <li class="navEl pl-12"><a class="navlink" href="/subjects">Subjects</a></li>
+            <li class="navEl pl-12"><a class="navlink" href="#">Resources</a></li>
+        </ul>
+    </div>
+    <div class="bg-white text-center  w-full ">
+        <form class="font-bold text-indigo-400  py-4 " action="/logout" method="post"><input class = "hover:cursor-pointer" type="submit" value="Logout"></form>
+    </div>
+</div>
+<script>
+    const url = window.location.href;
+    const navEls = document.getElementsByClassName("navlink")
+    const c = " bg-white shadow-lg rounded-r-full"
+    for (var i = 0; i < navEls.length; i++) {
+        if (navEls[i].href === url){
+            navEls[i].parentNode.className += c
+        }
+        navEls[i].addEventListener("click", function() {
+            console.log('clicked')
+            var current = document.getElementsByClassName(c);
+            if (current.length > 0){
+                current[0].className = current[0].parentNode.className.replace(c, "");
+            }
+            this.parentNode.className += c;
+    });
+    }
+</script>

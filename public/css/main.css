@@ -1,6 +1,10 @@
 /*//////////////////////////////////////////////////////////////////
 [ FONT ]*/
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 * {
     font-family: 'Poppins', sans-serif;

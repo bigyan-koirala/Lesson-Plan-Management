@@ -1,0 +1,34 @@
+<%- include('components/header') %>
+<div class="flex flex-row">
+    <div >
+        <%- include('components/sidebar') %>
+    </div>
+    <div class="p-5">
+
+        <h1>Week plan</h1>
+        <div class="mx-5">
+            <% for(let week in weeks) { %>
+                <p>Week <%= parseInt(week)+1 %>
+                    <a class="text-blue-700" href="/subjects/<%= JSON.parse(subject)._id %>/plan/<%=  weeks[week]._id%>">edit</a>
+                    <a class="text-red-500" href="/subjects/<%= JSON.parse(subject)._id %>/plan/<%=  weeks[week]._id%>/delete">Delete</a>
+                </p>
+            <% } %>
+        </div>
+        <form method="POST" action="/week/create">
+            <input
+            type="hidden"
+            name="subjectId"
+            value="<%= JSON.parse(subject)._id %>"
+            />
+            <button class="p-2 rounded bg-blue-500 mt-2" type="submit">
+                Add week
+            </button>
+        </form>
+    </div>
+</div>
+
+<%- include('components/footer') %>
+
+
+
+

@@ -1,0 +1,77 @@
+
+<%- include('components/header') %>
+<div class="flex flex-row">
+    <div >
+        <%- include('components/sidebar') %>
+    </div>
+    <div>
+        <div class="p-2 w-100 bg-indigo-200 text-xl">
+            <a href="/subjects/<%= subjectId %>">Overview</a>&nbsp;
+            <a href="/subjects/<%= subjectId %>/plan">Weekly Plan</a>
+        </div>
+        <div class="p-5">
+            <h1 class="text-3xl py-4">Chapters</h1>
+            <div class="flex flex-wrap">
+            
+                <% for( let i=0; i<chapters.length; i++) { %>
+                    <div class="">
+                        <a class="text-red-500" href="/subjects/<%= subjectId %>/chapter/<%= chapters[i]._id %>/delete">Delete</a> <p class="text-2xl"><span><%= i+1 %>. &nbsp</span><%= chapters[i].name %></p>
+                        <div class="p-2">
+
+                            <% for( let j=0; j<chapters[i].topics.length; j++) { %>
+                                <p>
+                                    <span class="text-xl"><span><%= i+1 %>.<%= j+1 %>. &nbsp</span><%= chapters[i].topics[j].name %></span> &nbsp;
+                                    <% if(chapters[i].topics[j].week) { %>
+                                        <span><a href="/subjects/<%= subjectId %>/plan/<%= chapters[i].topics[j].week %>/">Go to week</a></span>
+                                    <% } %>
+                                    <a href="/subjects/<%= subjectId %>/chapter/<%= chapters[i]._id %>/<%= chapters[i].topics[j]._id %>/delete" class="text-red-500">Delete</a>
+                                </p>
+                            <% } %>
+                        </div>
+            
+                        <form class="p-5" method="POST" action="/topic/create">
+                            <input 
+                                class="block shadow border rounded w-full p-2"
+                                placeholder="Name"
+                                name="name"
+                                type="text"
+                                required
+                            />
+                            <input
+                                type="hidden"
+                                name="subjectId"
+                                value="<%= subjectId %>"
+                            />
+                            <input
+                                type="hidden"
+                                name="chapterId"
+                                value="<%= chapters[i]._id %>"
+                            />
+                            <button class="p-2 rounded bg-blue-500 mt-2" type="submit">Add Topic</button>
+                        </form> 
+                    </div>
+                <% } %>
+            </div>
+        
+            <div class="w-full">
+            
+                <form class="p-5" method="POST" action="/chapter/create">
+                    <input 
+                        class="block shadow border rounded w-full p-2"
+                        placeholder="Name"
+                        name="name"
+                        type="text"
+                        required
+                    />
+                    <input
+                        type="hidden"
+                        name="subjectId"
+                        value="<%= subjectId %>"
+                    />
+                    <button class="p-2 rounded bg-blue-500 mt-2" type="submit">Add Chapter</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<%- include('components/footer') %>

@@ -1,11 +1,4 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
-body {
-    display: flex;
-    margin-top: 50px;
-    justify-content: center;
-    background-color: #FFFCFF;
-    font-family: 'Poppins', sans-serif;
-}
 
 button {
     width: 75px;
@@ -31,9 +24,6 @@ button {
     background-color: #92a1d1;
 }
 
-#container {
-    width: 770px;
-}
 
 #weekdays {
     width: 100%;
