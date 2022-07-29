@@ -7,35 +7,56 @@ const Plan = require('./lessonplan')
 
 
 const subjectSchema = new Schema({
-
-
     name: {
-        type: String
+        type: String,
+        required: true
     },
 
-    assignments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Assignment'
-    }],
-
-    image: {
-        type: String
+    plan: {
+        type: String,
+        requried: true,
     },
-
-    resources: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Resource'
+    
+    chapters: [{
+        name: {
+            type: String,
+            required: true
+        },
+        topics: [{
+            name: {
+                type: String,
+                required: true
+            },
+            week: {
+                type: String,
+            }
+        }]
     }],
 
-    plan: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Plan'
-    }],
+
+    // assignments: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Assignment'
+    // }],
+
+    // image: {
+    //     type: String
+    // },
+
+    // resources: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Resource'
+    // }],
+
+    // plan: [{
+    //     type: Schema.Types.ObjectId,
+    //     ref: 'Plan'
+    // }],
 
 
-    subcode: {
-        type: String
-    }
+    // subcode: {
+    //     type: String
+    // }
 })
 
 const Subject = mongoose.model('Subject', subjectSchema);

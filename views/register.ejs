@@ -28,7 +28,7 @@
                     >
                         LPMS
                     </p>
-                    <% if(errorMessage !== "") { %>
+                    <% if(typeof errorMessage != "undefined") { %>
                     <p class="text-center bg-red-400 text-2xl text-red-600">
                         <%= errorMessage %>
                     </p>
@@ -45,7 +45,7 @@
                             id="username"
                             type="text"
                             name="username"
-                            <% if(username !== ""){ %>
+                            <% if(typeof username !== "undefined"){ %>
                         value=<%= username %> 
                         <%}else{ %> 
                         placeholder="username" 

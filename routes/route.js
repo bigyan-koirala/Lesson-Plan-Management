@@ -17,15 +17,59 @@ const Assignment = require("../models/assignments");
 const Resource = require("../models/resources");
 const Plan = require("../models/lessonplan.js");
 
+const {
+    loginUser,
+    createUser,
+    logoutUser,
+} = require("../controllers/user");
+
+const {
+    getSubject,
+    getSubjectById,
+    createSubject,
+    deleteSubject,
+} = require("../controllers/subject");
+
+const {
+    getChapter,
+    createChapter, 
+    deleteChapter,
+} = require("../controllers/chapter");
+
+const {
+    getAssignment, createAssignment,
+    //    listAssignment,
+} = require("../controllers/assignment");
+
+const {
+    listWeek,
+    createWeek,
+    singleWeek,
+    addTopicToWeek,
+    deleteWeek,
+} = require('../controllers/week');
+
+// const {
+    //     createPlan,
+    // } = require("../controllers/plan.js");
+    
+const {
+    createTopic,
+    removeWeek,
+    deleteTopic,
+} = require("../controllers/topic");
+    
 const upload = multer({ storage });
+
 const requireLogin = async(req, res, next) => {
-    console.log(req.session.id)
-    console.log(req.session)
     if (!req.session.user_id) {
-        res.redirect('/');
+        return res.redirect('/');
     }
     next();
 }
+
+
+
 const secret = 'thisshouldbeabettersecret!';
 
 
@@ -51,60 +95,40 @@ let ses =
 router.use(ses)
 router.use(bodyParser.json())
 router.use(bodyParser.urlencoded({ extended: true }))
+
+
 router.get(
     "/",
     catchAsync(async (req, res) => {
         res.render("home.ejs", { errorMessage: "" });
     })
 );
+
 router.get("/register", (req, res) => {
-    res.render("register.ejs", { errorMessage: "", username: "" });
+    res.render("register.ejs");
 });
 
-router.post(
-    "/register",
-    catchAsync(async (req, res) => {
-        const { username, password, cpassword } = req.body;
+router.post("/register", createUser);
+router.post("/login", loginUser);
+router.post("/logout", logoutUser);
 
-        if (password === cpassword) {
-            const user = new User({ username, password });
-            await user.save();
-            req.session.user_id = user._id;
-            res.session.save();
-            res.redirect("/dashboard");
-        } else {
-            res.render("register", {
-                errorMessage: "Password didn't matched",
-                username: username,
-            });
-        }
-    })
-);
-
-
-router.post(
-    "/login",
-    catchAsync(async (req, res) => {
-        const { username, password } = req.body;
-        const foundUser = await User.findAndValidate(username, password);
-        if (foundUser) {
-            req.session.user_id = foundUser._id;
-            res.redirect("/dashboard");
-        } else {
-            res.redirect("/login");
-        }
-    })
-);
-router.post(
-    "/logout",
-    catchAsync(async (req, res) => {
-        console.log(req.session.user_id)
-        req.session.destroy();
-        res.clearCookie('lpms');
-        res.redirect("/");
-    })
-);
 router.use(requireLogin)
+
+
+router.post("/week/create", createWeek)
+router.get("/subjects/:subjectId/plan", listWeek);
+router.get("/subjects/:subjectId/plan/:weekId", singleWeek);
+router.get("/subjects/:subjectId/plan/:weekId/delete", deleteWeek);
+
+router.post("/chapter/create", createChapter);
+router.get("/subjects/:subjectId/chapter", getChapter);
+router.get("/subjects/:subjectId/chapter/:chapterId/delete", deleteChapter);
+
+router.post("/topic/create", createTopic);
+router.post("/week/addtopic", addTopicToWeek);
+router.get("/subjects/:subjectId/chapter/:chapterId/:topicId/delete", deleteTopic);
+
+
 router.get(
     "/dashboard",
     catchAsync(async (req, res) => {
@@ -112,13 +136,7 @@ router.get(
     })
 );
 
-router.get(
-    "/subjects",
-    catchAsync(async (req, res) => {
-        const subjects = await Subject.find({});
-        res.render("dashboard_subjects.ejs", { subjects });
-    })
-);
+router.get("/subjects", getSubject);
 
 router.get(
     "/subjects/new",
@@ -127,132 +145,27 @@ router.get(
     })
 );
 
-router.post("/subjects", async (req, res) => {
-    const subject = new Subject(req.body);
-    await subject.save();
-    res.redirect(`/subjects`);
-});
+router.post("/subjects", createSubject);
+router.get("/subjects/:id", getSubjectById);
 
-router.get(
-    "/subjects/:id",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-
-        const subject = await Subject.findById(id);
-        res.render("dashboard_subject.ejs", { subject });
-    })
-);
-
-router.delete("/subjects/:id", async (req, res) => {
-    const { id } = req.params;
-    console.log(id);
-    await Subject.findByIdAndDelete(id);
-    res.redirect("/subjects");
-});
-
-router.get(
-    "/subjects/:id/plan",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        const subject = await Subject.findById(id).populate("plan");
-        console.log(subject.plan.week);
-        res.render("dashboard_table.ejs", { subject });
-    })
-);
-
-router.get(
-    "/subjects/:id/plan/new",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        const subject = await Subject.findById(id);
-        console.log(subject.name);
-        res.render("dashboard_create.ejs", { subject });
-    })
-);
-
-router.post(
-    "/subjects/:id/plan",
-    catchAsync(async (req, res, next) => {
-        const subject = await Subject.findById(req.params.id);
-        const plan = new Plan(req.body);
-        subject.plan.push(plan);
-        await plan.save();
-        await subject.save();
-        console.log(req.body);
-        res.redirect(`/`);
-        console.log("hurrayyyy");
-    })
-);
-
-router.get(
-    "/subjects/:id/plan/:planId/edit",
-    catchAsync(async (req, res, next) => {
-        const { id, planId } = req.params;
-        const subject = await Subject.findById(id);
-        const plan = await Plan.findById(planId);
-        console.log(plan);
-        res.render(`dashboard_edit_plan.ejs`, { subject, plan });
-    })
-);
-
-router.put(
-    "/subjects/:id/plan/:planId",
-    catchAsync(async (req, res) => {
-        console.log("gg");
-        const { id, planId } = req.params;
-
-        // await Subject.findByIdAndUpdate(id, {...req.body });
-        await Plan.findByIdAndUpdate(planId, { ...req.body });
-        res.redirect(`/subjects/${id}/plan`);
-    })
-);
+router.get("/subjects/:subjectId/delete", deleteSubject);
+router.get("/subjects/:subjectId/chapter/:chapterId/topic/:topicId/:weekId/removeweek", removeWeek);
 
 // router.put('/subjects/:id/plan',catchAsync(async)
 
-router.get(
-    "/subjects/:id/assignment",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-
-        const subject = await Subject.findById(id).populate("assignments");
-        console.log(subject.assignments.title);
-
-        res.render("dashboard_assignments.ejs", { subject });
-    })
-);
-
-router.get(
-    "/showass",
-    catchAsync(async (req, res) => {
-        const { id } = req.params;
-        const ass = await Assignment.find();
-        console.log(ass);
-
-        res.render("dashboard_assignments.ejs", { ass });
-    })
-);
+router.get("/subjects/:id/assignment", getAssignment);
+//router.get("/listassignment", listAssignment);
 
 router.get(
     "/subjects/:id/assignment/new",
     catchAsync(async (req, res) => {
         const { id } = req.params;
-        const subject = await Subject.findById(id);
+        const subject = await Subject.findOne({"_id": id});
         res.render("dashboard_new_assignment.ejs", { subject });
     })
 );
 
-router.post(
-    "/subjects/:id/assignment",
-    catchAsync(async (req, res, next) => {
-        const subject = await Subject.findById(req.params.id);
-        const assignment = new Assignment(req.body);
-        subject.assignments.push(assignment);
-        await assignment.save();
-        await subject.save();
-        console.log(req.body);
-        res.redirect(`/subjects/${subject._id}/assignment`);
-    })
-);
+router.post("/subjects/:id/assignment", createAssignment);
 
 router.get(
     "/subjects/:id/resources",
@@ -315,8 +228,66 @@ router.get(
 //     res.send(req.body)
 // })
 
-router.all("*", (req, res, next) => {
-    next(new ExpressError("Page Not Found", 404));
-});
+// router.all("*", (req, res, next) => {
+//     next(new ExpressError("Page Not Found", 404));
+// });
+
+// router.get(
+//     "/subjects/:id/plan",
+//     catchAsync(async (req, res) => {
+//         const { id } = req.params;
+//         const subject = await Subject.findById(id).populate("plan");
+//         console.log(subject.plan.week);
+//         res.render("dashboard_table.ejs", { subject });
+//     })
+// );
+
+// router.get(
+//     "/subjects/:id/plan/new",
+//     catchAsync(async (req, res) => {
+//         const { id } = req.params;
+//         const subject = await Subject.findById(id);
+//         console.log(subject.name);
+//         res.render("dashboard_create.ejs", { subject });
+//     })
+// );
+
+// router.post(
+//     "/subjects/:id/plan",
+//     catchAsync(async (req, res, next) => {
+//         const subject = await Subject.findById(req.params.id);
+//         const plan = new Plan(req.body);
+//         subject.plan.push(plan);
+//         await plan.save();
+//         await subject.save();
+//         console.log(req.body);
+//         res.redirect(`/`);
+//         console.log("hurrayyyy");
+//     })
+// );
+
+// router.get(
+//     "/subjects/:id/plan/:planId/edit",
+//     catchAsync(async (req, res, next) => {
+//         const { id, planId } = req.params;
+//         const subject = await Subject.findById(id);
+//         const plan = await Plan.findById(planId);
+//         console.log(plan);
+//         res.render(`dashboard_edit_plan.ejs`, { subject, plan });
+//     })
+// );
+
+// router.put(
+//     "/subjects/:id/plan/:planId",
+//     catchAsync(async (req, res) => {
+//         console.log("gg");
+//         const { id, planId } = req.params;
+
+//         // await Subject.findByIdAndUpdate(id, {...req.body });
+//         await Plan.findByIdAndUpdate(planId, { ...req.body });
+//         res.redirect(`/subjects/${id}/plan`);
+//     })
+// );
+
 
 module.exports = router;

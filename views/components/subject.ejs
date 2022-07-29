@@ -1,26 +1,14 @@
-<!DOCTYPE html>
+    <div class="wrapper p-5">
+        <ul class="text-xl">
 
-<html lang="en" dir="ltr">
-
-<head>
-    <meta charset="utf-8">
-    <title> Menu</title>
-    <link rel="stylesheet" href="/css/navbar.css">
-    <link rel="stylesheet" href="/css/hi.css">
-    <link rel="stylesheet" href="/css/popup1.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-
-<body>
-    <div class="wrapper">
-        <ul>
-            <li>
+            <li><a href="/subjects/<%= subject._id %>/plan/">Weekly Plan</a></li>
+            <li><a href="/subjects/<%= subject._id %>/chapter">Chapter</a></li>
+            <!-- <li>
                 <a href="/subjects/<%=subject._id %>/plan/new "> Create plan</a>
             </li>
-            <li>
                 <li>
                     <a href="/subjects/<%= subject._id %>/plan "> View Plan</a></li>
-                <li>
+                <li> -->
                     <a href="/subjects/<%= subject._id %>/assignment/new ">Create Assignment</a></li>
                 <li>
                     <a href="/subjects/<%= subject._id %>/assignment ">View Assignment</a></li>
@@ -41,7 +29,3 @@
 
         </ul>
     </div>
-
-</body>
-
-</html>

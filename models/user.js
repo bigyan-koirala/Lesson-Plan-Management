@@ -10,13 +10,23 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password cant be empty']
-    }
+    },
+    subjects: [{
+            type: String,
+            required: true,
+    }],
 })
 
 userSchema.statics.findAndValidate = async function(username, password) {
-    const foundUser = await this.findOne({ username });
-    const isValid = await bcrypt.compare(password, foundUser.password);
-    return isValid ? foundUser : false;
+    try{
+
+        const currentUser = await this.findOne({ username });
+        if(!currentUser) return false;
+        const isValid = await bcrypt.compare(password, currentUser.password);
+        return isValid ? currentUser : false;
+    }catch(err){
+        return false;
+    }
 }
 
 userSchema.pre('save', async function(next) {

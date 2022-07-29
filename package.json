@@ -6,7 +6,7 @@
     "scripts": {
         "build:css": "npx postcss build dist/tailwind.css -o public/css/tailwind.css --watch",
         "test": "echo \"Error: no test specified\" && exit 1",
-        "start": "nodemon index.js"
+        "start": "nodemon index.js -e js,ejs,css"
     },
     "repository": {
         "type": "git",

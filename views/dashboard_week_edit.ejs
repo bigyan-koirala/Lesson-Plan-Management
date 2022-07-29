@@ -1,0 +1,115 @@
+<%- include('components/header') %>
+<div class="flex flex-row">
+    <div >
+        <%- include('components/sidebar') %>
+    </div>
+    <div class="">
+        <div class="w-100 text-xl border-2 border-red-500">
+            <a class="bg-indigo-200 p-2 border-r-2 border-red-500" href="/subjects/<%= JSON.parse(subject)._id %>">Overview</a>&nbsp;
+            <a class="bg-indigo-200 p-2" href="/subjects/<%= JSON.parse(subject)._id %>/plan">Weeks</a>&nbsp;
+            <a class="bg-indigo-200 p-2" href="/subjects/<%= JSON.parse(subject)._id %>/chapter">Chapters</a>
+        </div>
+        <div class="p-5">
+
+            <p class="text-3xl py-4">Week <%= week.index+1 %> of <%= JSON.parse(subject).name %> </pj>
+            <div>
+                    
+                <% for(let i=0; i<plans.length; i++){ %>
+                    <p class="text-2xl"><span><%= i+1 %>. &nbsp;</span><%= plans[i].name %></p>
+                    <div class="p-2">
+                        <% for(let j=0; j<plans[i].topics.length; j++) { %>
+                            <p>
+                                <span><%= `${i+1}.${j+1}` %>. &nbsp;</span>
+                                <span><%= plans[i].topics[j].name %></span>
+                                <span><a href="/subjects/<%= JSON.parse(subject)._id %>/chapter/<%= plans[i]._id %>/topic/<%= plans[i].topics[j]._id %>/<%= week._id %>/removeweek" class="text-red-500">Delete</a></span>
+                            </p>
+                        <% } %>
+                    </div>
+                <% } %>
+            </div>
+                        
+            <form method="POST" action="/week/addtopic">
+                <select class="p-2" name="chapterId" id="chapter" onchange="changeTopics(this.value)">
+                </select>
+                <select class="p-2" name="topicId" id="topic">
+                </select>
+                <input
+                    type="hidden"
+                    name="subjectId"
+                    value="<%= JSON.parse(subject)._id %>"
+                />
+                <input
+                    type="hidden"
+                    name="weekId"
+                    value="<%= week._id %>"
+                />
+                <button class="p-2 rounded bg-blue-500 mt-2" type="submit">
+                    Add Plan 
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+                    
+<script>
+    let topics = [];
+    function changeTopics(value){
+        let chapters = JSON.parse(`<%- subject %>`).chapters;
+        let selectedChapter = chapters.find( chapter => chapter._id === value);
+                            
+        topics = selectedChapter.topics;
+        const topicBox = document.getElementById('topic');
+                            
+        while (topicBox.options.length >0) topicBox.remove(0);
+                            
+        for(topic of topics){
+            if(!topic.week){
+
+                var newOption = document.createElement('option');
+                var optionText = document.createTextNode(topic.name);
+                
+                newOption.appendChild(optionText);
+                newOption.setAttribute('value', topic._id);
+                topicBox.appendChild(newOption);
+            }
+        }
+    }
+
+    function renderChapters(){
+        let chapters = JSON.parse(`<%- subject %>`).chapters;
+        console.log(chapters);
+                            
+        const chapterBox = document.getElementById('chapter');
+                            
+        for(chapter of chapters){
+            console.log(chapter);
+            if(!chapter.topics || chapter.topics.length === 0){
+                console.log(chapter);
+                continue;  
+                console.log("adsf");
+            };
+            let renderChapters = false;
+            for(topic of chapter.topics){
+                if(!topic.week){
+                    renderChapters = true;
+                    break;
+                }
+            }
+
+            if(renderChapters){
+                var newOption = document.createElement('option');
+                var optionText = document.createTextNode(chapter.name);
+                
+                newOption.appendChild(optionText);
+                newOption.setAttribute('value', chapter._id);
+                chapterBox.appendChild(newOption);
+            }
+        }
+
+    }
+    renderChapters();
+    changeTopics(document.getElementById("chapter").value)
+</script>
+
+
+<%- include('components/footer') %>
